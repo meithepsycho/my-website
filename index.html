@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mei — fullstack developer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=NATS&family=Poppins:wght@300;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --slogan-font-size: clamp(2rem, 7vw, 60px);
+            --interface-image-width: 700px;
+            --p1: 0;
+            --p2: 0;
+            --p3: 0;
+        }
+
+        .brand-layer,
+        .slogan-title,
+        .scroll-indicator,
+        .scroll-track-capsule,
+        .pattern-container,
+        .glass-mockup-card,
+        .faq-title,
+        .faq-question,
+        .install-title,
+        .install-subtitle,
+        .install-tutorial,
+        .install-note,
+        img {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
+            background-color: #0d0d0d;
+            color: #FFFFFF;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        .fixed-viewport {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .pattern-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            overflow: hidden;
+            user-select: none;
+            opacity: 0.9;
+        }
+
+        .pattern-row {
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: flex-start;
+            flex-shrink: 0;
+            contain: layout paint;
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .to-right { animation: scroll-right 120s linear infinite; }
+        .to-left  { animation: scroll-left  120s linear infinite; }
+
+        @keyframes scroll-left {
+            0%   { transform: translate3d(0,    0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        @keyframes scroll-right {
+            0%   { transform: translate3d(-50%, 0, 0); }
+            100% { transform: translate3d(0,    0, 0); }
+        }
+
+        .pattern-text {
+            font-family: 'NATS', sans-serif;
+            font-weight: 500;
+            color: #171717;
+            letter-spacing: 0.25em;
+            margin-right: 0.25em;
+            font-size: 2.2rem;
+            line-height: 1;
+            white-space: nowrap;
+            flex-shrink: 0;
+            text-rendering: optimizeSpeed;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .layer {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            will-change: transform, opacity;
+        }
+
+        /* ── BRAND LAYER (logo only, then logo+name) ── */
+        .brand-layer {
+            z-index: 5;
+            opacity: calc(1 - var(--p2));
+            transform: translate3d(0, calc(var(--p2) * -38vh), 0);
+        }
+
+        .brand-unit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: calc(var(--p1) * clamp(10px, 2.5vw, 35px));
+            pointer-events: auto;
+            max-width: 90%;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: calc(
+                clamp(140px, 40vw, 280px) -
+                (var(--p1) * (clamp(140px, 40vw, 280px) - clamp(65px, 12vw, 100px)))
+            );
+            height: auto;
+            aspect-ratio: 1 / 1;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .logo-wrapper:hover { transform: scale(1.05); }
+
+        /* SVG logo for "mei" — star + ring in chrome/silver */
+        .logo-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .brand-text-container {
+            display: inline-block;
+            max-width: calc(var(--p1) * 650px);
+            opacity: var(--p1);
+            overflow: hidden;
+            white-space: nowrap;
+            transform: translate3d(calc((1 - var(--p1)) * -40px), 0, 0);
+        }
+
+        .brand-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: clamp(1.8rem, 6vw, 5rem);
+            color: #FFFFFF;
+            letter-spacing: 0.15em;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 1;
+        }
+
+        /* ── SHOWCASE LAYER ── */
+        .showcase-layer {
+            z-index: 3;
+            padding: 4vh 24px 15vh 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 3vh;
+            opacity: var(--p3);
+            transform: translate3d(0, calc((1 - var(--p3)) * 35vh), 0);
+            pointer-events: auto;
+            overflow-y: hidden;
+            height: calc(100vh - 60px);
+            height: calc(100dvh - 60px);
+            top: 60px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .showcase-layer::-webkit-scrollbar { display: none; }
+
+        .slogan-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: var(--slogan-font-size);
+            line-height: 1.25;
+            letter-spacing: -0.015em;
+            text-align: center;
+            margin: 2vh 0 1vh 0;
+            color: #FFFFFF;
+            white-space: pre-line;
+            will-change: transform, opacity;
+        }
+
+        /* ── MOCKUP: code editor window ── */
+        .glass-mockup-card {
+            width: 100%;
+            max-width: var(--interface-image-width);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            margin: 0.5vh 0;
+            flex-shrink: 0;
+            will-change: transform, opacity;
+            background: #141420;
+        }
+        .glass-mockup-card:hover { transform: scale(1.015); }
+
+        .editor-titlebar {
+            background: #1e1e2e;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            gap: 7px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            flex-shrink: 0;
+        }
+        .tdot { width: 12px; height: 12px; border-radius: 50%; }
+        .tdot.r { background: #ff5f57; }
+        .tdot.y { background: #febc2e; }
+        .tdot.g { background: #28c840; }
+        .editor-title {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 0.03em;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .editor-tabs {
+            display: flex;
+            background: #12121e;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 0 8px;
+            gap: 2px;
+        }
+        .editor-tab {
+            padding: 7px 16px;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.35);
+            display: flex; align-items: center; gap: 5px;
+            cursor: pointer;
+        }
+        .editor-tab.active {
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.85);
+            border-bottom: 1px solid rgba(167,139,250,0.5);
+        }
+        .tab-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.25); }
+
+        .editor-body {
+            display: flex;
+            flex: 1;
+        }
+        .editor-sidebar {
+            width: 44px;
+            background: #0f0f1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 14px 0;
+            gap: 18px;
+            border-right: 1px solid rgba(255,255,255,0.04);
+        }
+        .sb-icon {
+            width: 20px; height: 20px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.06);
+        }
+        .sb-icon.active { background: rgba(255,255,255,0.15); }
+
+        .editor-code {
+            flex: 1;
+            padding: 14px 18px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.72rem;
+            line-height: 1.9;
+            color: rgba(255,255,255,0.75);
+            overflow: hidden;
+        }
+        .ln { color: rgba(255,255,255,0.18); margin-right: 16px; user-select: none; }
+        .kw { color: #c792ea; }
+        .fn { color: #82aaff; }
+        .str { color: #c3e88d; }
+        .cm { color: rgba(255,255,255,0.3); font-style: italic; }
+
+        .editor-console {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: #0a0a14;
+            padding: 10px 18px;
+        }
+        .console-tabs {
+            display: flex; gap: 16px; margin-bottom: 8px;
+        }
+        .c-tab {
+            font-size: 0.62rem;
+            color: rgba(255,255,255,0.25);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+        }
+        .c-tab.active { color: rgba(255,255,255,0.65); border-bottom: 1px solid rgba(255,255,255,0.35); padding-bottom: 1px; }
+        .c-line { font-family: 'Courier New', monospace; font-size: 0.67rem; color: #4ec94e; line-height: 1.7; }
+
+        /* ── FAQ ── */
+        .faq-section {
+            width: 100%;
+            max-width: var(--interface-image-width);
+            margin-top: 4vh;
+            margin-bottom: 4vh;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+
+        .faq-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: clamp(1.6rem, 4vw, 2.8rem);
+            color: #FFFFFF;
+            text-align: left;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        .faq-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .faq-item {
+            width: 100%;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            background-color: transparent;
+            border-radius: 0;
+            transition: background-color 0.4s cubic-bezier(0.16,1,0.3,1),
+                        border-radius    0.4s cubic-bezier(0.16,1,0.3,1),
+                        border-bottom-color 0.4s cubic-bezier(0.16,1,0.3,1);
+            box-sizing: border-box;
+        }
+        .faq-item.active {
+            background-color: #121212;
+            border-radius: 8px;
+            border-bottom-color: transparent;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 16px;
+            cursor: pointer;
+            user-select: none;
+            font-size: clamp(0.9rem, 2vw, 1.15rem);
+            font-weight: 500;
+            color: rgba(255,255,255,0.9);
+            transition: color 0.3s ease, padding-bottom 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .faq-question:hover { color: #FFFFFF; }
+        .faq-item.active .faq-question { padding-bottom: 12px; }
+
+        .faq-arrow {
+            width: 16px; height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .faq-item.active .faq-arrow { transform: rotate(180deg); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .faq-answer-inner {
+            padding: 0 16px 20px 16px;
+            font-size: clamp(0.82rem,1.8vw,1rem);
+            line-height: 1.6;
+            color: rgba(255,255,255,0.7);
+            opacity: 0;
+            transform: translate3d(0,-10px,0);
+            transition: opacity 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .faq-item.active .faq-answer-inner { opacity: 1; transform: translate3d(0,0,0); }
+
+        /* ── CONTACT ("Install" style) ── */
+        .install-section {
+            width: 100%;
+            max-width: var(--interface-image-width);
+            margin-top: 4vh;
+            margin-bottom: 12vh;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            text-align: left;
+        }
+
+        .install-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: clamp(1.6rem,4vw,2.8rem);
+            color: #FFFFFF;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        .install-instructions { display: flex; flex-direction: column; gap: 6px; }
+
+        .install-subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: clamp(0.9rem,2vw,1.15rem);
+            color: #FFFFFF;
+            margin: 0;
+        }
+
+        .install-tutorial {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            font-size: clamp(0.8rem,1.8vw,0.95rem);
+            color: #8C8C8C;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .tutorial-link {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+            word-break: break-all;
+        }
+        .tutorial-link:hover { opacity: 0.8; text-decoration: underline; }
+
+        .terminal-box {
+            background-color: #121212;
+            border: 1px solid rgba(255,255,255,0.02);
+            border-radius: 6px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            box-sizing: border-box;
+            width: 100%;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1),
+                        background-color 0.3s ease,
+                        border-color 0.3s ease;
+        }
+        .terminal-box:hover { transform: scale(1.01); background-color: #161616; border-color: rgba(255,255,255,0.05); }
+        .terminal-box:active { transform: scale(0.99); }
+
+        .terminal-code {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(0.75rem,2vw,0.92rem);
+            font-weight: 500;
+            color: #FFFFFF;
+            margin: 0;
+            white-space: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            width: 100%;
+            text-align: left;
+            user-select: text;
+        }
+        .terminal-code::-webkit-scrollbar { display: none; }
+
+        .copy-btn {
+            background: none; border: none; cursor: pointer; padding: 0;
+            display: flex; align-items: center; justify-content: center;
+            color: #FFFFFF; font-size: 1.15rem; position: relative;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            flex-shrink: 0;
+        }
+        .copy-btn:hover { transform: scale(1.1); }
+        .copy-btn svg { width: 1.1em; height: 1.1em; display: block; }
+
+        .copied-indicator {
+            position: absolute; right: 40px; top: 50%;
+            transform: translateY(-50%) scale(0.9);
+            background-color: #1C1C1E;
+            border: 1px solid rgba(255,255,255,0.05);
+            color: #FFFFFF;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.75rem; font-weight: 500;
+            padding: 4px 10px; border-radius: 4px;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.16,1,0.3,1), transform 0.3s cubic-bezier(0.16,1,0.3,1);
+            white-space: nowrap; z-index: 10;
+        }
+        .copied-indicator.show { opacity: 1; transform: translateY(-50%) scale(1); }
+
+        .install-note {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            font-size: clamp(0.78rem,1.8vw,0.9rem);
+            color: #8C8C8C;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .note-bold { font-family: 'Poppins', sans-serif; font-weight: 600; color: #FFFFFF; }
+
+        /* ── SCROLL INDICATOR ── */
+        .scroll-indicator {
+            position: absolute; bottom: 40px;
+            display: flex; flex-direction: column; align-items: center; gap: 12px;
+            z-index: 15;
+            opacity: calc(1 - (var(--p1) * 4));
+            transition: opacity 0.3s ease;
+        }
+        .indicator-text {
+            font-size: 0.75rem; text-transform: uppercase;
+            letter-spacing: 0.25em; color: #888888; font-weight: 500;
+        }
+        .mouse-icon {
+            width: 22px; height: 36px;
+            border: 2px solid #555555; border-radius: 12px; position: relative;
+        }
+        .mouse-wheel {
+            width: 4px; height: 8px;
+            background-color: #A3A3A3; border-radius: 2px;
+            position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+            animation: bounce 1.8s infinite ease-in-out;
+        }
+        @keyframes bounce {
+            0%,100% { transform: translate3d(-50%,0,0); opacity: 0.3; }
+            50%      { transform: translate3d(-50%,6px,0); opacity: 1; }
+        }
+
+        /* ── SCROLL CAPSULE ── */
+        .scroll-track-capsule {
+            position: fixed; right: 12px; top: 50%; transform: translateY(-50%);
+            width: 4px; height: 120px;
+            background-color: rgba(255,255,255,0.05); border-radius: 2px;
+            z-index: 99; overflow: hidden; cursor: pointer; pointer-events: auto;
+            user-select: none;
+            transition: background-color 0.3s ease, width 0.3s ease;
+        }
+        .scroll-track-capsule:hover { background-color: rgba(255,255,255,0.08); width: 6px; }
+
+        .scroll-thumb {
+            width: 100%; height: 30%;
+            background-color: rgba(255,255,255,0.35); border-radius: 2px;
+            transform: translate3d(0,0,0); will-change: transform; cursor: grab;
+            transition: background-color 0.2s ease;
+        }
+        .scroll-thumb:hover  { background-color: rgba(255,255,255,0.5); }
+        .scroll-thumb:active { cursor: grabbing; background-color: rgba(255,255,255,0.7); }
+
+        /* ── NAV BADGE ── */
+        .brand-badge {
+            position: fixed; top: 14px; left: 14px;
+            display: flex; align-items: center; gap: 10px;
+            background-color: #121212;
+            padding: 8px 18px; border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.02);
+            z-index: 100; pointer-events: auto;
+            transform: translate3d(0, calc(var(--p2) * -80px), 0);
+            opacity: calc(1 - var(--p2));
+            will-change: transform, opacity;
+            cursor: default; height: 38px; box-sizing: border-box;
+            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+        .brand-badge.header-show { transform: translate3d(0,0,0) !important; opacity: 1 !important; }
+
+        .badge-icon { width: 24px; height: 24px; }
+        .badge-text {
+            font-family: 'Poppins', sans-serif; font-weight: 500;
+            font-size: 0.85rem; color: #FFFFFF; letter-spacing: 0.02em; line-height: 1;
+        }
+
+        /* ── ACTION BUTTONS ── */
+        .action-header {
+            position: fixed; top: 14px; right: 14px;
+            display: flex; gap: 10px; z-index: 100; pointer-events: auto;
+            transform: translate3d(0, calc(var(--p2) * -80px), 0);
+            opacity: calc(1 - var(--p2));
+            will-change: transform, opacity;
+            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+        .action-header.header-show { transform: translate3d(0,0,0) !important; opacity: 1 !important; }
+
+        .action-button {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background-color: #121212; color: #FFFFFF;
+            font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 0.82rem;
+            padding: 8px 16px; border-radius: 6px; text-decoration: none;
+            transition: transform 0.8s cubic-bezier(0.16,1,0.3,1),
+                        background-color 0.8s cubic-bezier(0.16,1,0.3,1),
+                        border-color 0.8s cubic-bezier(0.16,1,0.3,1);
+            box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.02);
+            cursor: pointer; user-select: none;
+        }
+        .action-button:hover  { transform: scale(1.05); background-color: #161616; border-color: rgba(255,255,255,0.08); }
+        .action-button:active { transform: scale(0.98); }
+        .action-button svg { width: 1em; height: 1em; flex-shrink: 0; }
+
+        /* ── FOOTER ── */
+        .fixed-footer {
+            position: fixed; bottom: 24px; left: 24px; right: 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(0.72rem,1.2vw,0.82rem);
+            color: rgba(255,255,255,0.35);
+            z-index: 90; pointer-events: none;
+            transition: opacity 0.3s ease; opacity: 0;
+        }
+        .fixed-footer .footer-left,
+        .fixed-footer .footer-right { pointer-events: auto; user-select: text; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 640px) {
+            .showcase-layer { padding: 2vh 16px 12vh 16px; gap: 2.5vh; }
+            .faq-section { margin-top: 2vh; margin-bottom: 2vh; gap: 1rem; }
+            .install-section { margin-top: 2vh; margin-bottom: 8vh; gap: 1rem; }
+            .brand-badge .badge-text { display: none; }
+            .brand-badge { padding: 8px; width: 38px; justify-content: center; border-radius: 50%; }
+            .fixed-footer { flex-direction: column; gap: 8px; bottom: 16px; left: 16px; right: 16px; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .action-header { top: 10px; right: 10px; gap: 6px; }
+            .brand-badge { top: 10px; left: 10px; }
+            .action-button span { display: none; }
+            .action-button { padding: 8px; width: 36px; height: 36px; justify-content: center; border-radius: 50%; }
+            .scroll-track-capsule { right: 8px; height: 100px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+        }
+
+        /* ── BRAND LAYER (Text only) ── */
+        /* ── BRAND LAYER (Text only) ── */
+        .brand-layer {
+            z-index: 5;
+            opacity: calc(1 - var(--p2));
+            transform: translate3d(0, calc(var(--p2) * -38vh), 0);
+        }
+
+        .brand-unit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+            max-width: 90%;
+        }
+
+/* Remove or hide the logo wrapper entirely */
+        .logo-wrapper {
+            display: none;
+        }
+
+/* Make text container handle scaling and opacity based on scroll (--p1) */
+        .brand-text-container {
+            display: inline-block;
+            opacity: 1; /* Keep fully visible at start */
+            overflow: hidden;
+            white-space: nowrap;
+            text-align: center;
+        }   
+
+        .brand-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            /* Scale dynamically: starts big, gets smaller/tighter as you scroll into phase 2 */
+            font-size: clamp(3.5rem, 12vw, 9rem);
+            color: #FFFFFF;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 1;
+            transition: transform 0.1s ease-out;
+        }
+
+        .social-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.social-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+}
+
+.social-card:hover {
+    background: #282828;
+    border-color: #555;
+    transform: translateY(-2px);
+}
+
+.social-icon {
+    flex-shrink: 0;
+}
+    </style>
+</head>
+<body>
+
+    <!-- BRAND BADGE -->
+    <div class="brand-badge">
+        <!-- there was an svg here, i removed it :3-->
+        <span class="badge-text">mei</span>
+    </div>
+
+    <!-- NAV ACTIONS -->
+    <div class="action-header">
+        <a href="#projects" id="projects-trigger" class="action-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path fill="#fff" d="M3 3h18v2H3zm0 8h18v2H3zm0 8h18v2H3z"/>
+            </svg>
+            <span>Projects</span>
+        </a>
+        <a href="https://github.com" target="_blank" class="action-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path fill="#fff" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            <span>GitHub</span>
+        </a>
+        <a href="https://discord.com/users/447211905128333312" target="_blank" class="action-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path fill="#fff" d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.1.1 0 00-.07.03c-.18.33-.39.76-.53 1.09a16.1 16.1 0 00-4.8 0c-.14-.34-.35-.76-.54-1.09a.077.077 0 00-.07-.03c-1.5.26-2.93.71-4.27 1.33-.01 0-.02 0-.03.02C2.08 9.09 1.33 13.05 1.7 16.97c0 .02.01.04.03.05 1.8 1.32 3.53 2.12 5.24 2.65.03.01.06 0 .07-.02.4-.55.76-1.13 1.07-1.74.02-.04 0-.08-.04-.09-.57-.22-1.11-.48-1.64-.78-.04-.02-.04-.08-.01-.11.11-.08.22-.17.33-.25a.075.075 0 01.078-.01c3.44 1.57 7.15 1.57 10.55 0a.075.075 0 01.079.009c.11.09.22.17.33.26.04.03.04.09-.01.11-.52.31-1.07.56-1.64.78-.04.01-.05.06-.04.09.32.61.68 1.19 1.07 1.74.03.01.06.02.09.01a19.96 19.96 0 006.002-2.981.076.076 0 00.032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 00-.031-.028zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.83 2.12-1.89 2.12z"/>
+            </svg>
+            <span>Join Discord</span>
+        </a>
+    </div>
+
+    <!-- MAIN VIEWPORT -->
+    <div id="viewport-frame" class="fixed-viewport">
+        <div id="pattern-container" class="pattern-container"></div>
+
+    <!-- BRAND LAYER -->
+<div class="layer brand-layer">
+    <div class="brand-unit">
+        <!-- Logo wrapper removed -->
+        <div class="brand-text-container">
+            <span class="brand-text">mei.</span>
+        </div>
+    </div>
+</div>
+
+        <!-- PHASE 3: showcase slides up -->
+        <div id="showcase-scroll-pane" class="layer showcase-layer">
+            <h2 class="slogan-title">The Fullstack Developer&#10;You Actually Need.</h2>
+
+            <!-- code editor mockup -->
+            <div class="glass-mockup-card" id="projects">
+                <div class="editor-titlebar">
+                    <span class="tdot r"></span>
+                    <span class="tdot y"></span>
+                    <span class="tdot g"></span>
+                    <span class="editor-title">index.ts — mei's workspace</span>
+                </div>
+                <div class="editor-tabs">
+                    <div class="editor-tab active"><span class="tab-dot"></span>index.ts</div>
+                    <div class="editor-tab">api.ts</div>
+                    <div class="editor-tab">db.ts</div>
+                </div>
+                <div class="editor-body">
+                    <div class="editor-sidebar">
+                        <div class="sb-icon active"></div>
+                        <div class="sb-icon"></div>
+                        <div class="sb-icon"></div>
+                        <div class="sb-icon"></div>
+                    </div>
+                    <div style="flex:1;display:flex;flex-direction:column;">
+                        <div class="editor-code">
+                            <div><span class="ln">1</span><span class="cm">// author: meithepsycho</span></div>
+                            <div><span class="ln">2</span><span class="kw">import</span> { serve } <span class="kw">from</span> <span class="str">"bun"</span></div>
+                            <div><span class="ln">3</span><span class="kw">import</span> { db }    <span class="kw">from</span> <span class="str">"./db"</span></div>
+                            <div><span class="ln">4</span>&nbsp;</div>
+                            <div><span class="ln">5</span><span class="fn">serve</span>({</div>
+                            <div><span class="ln">6</span>&nbsp;&nbsp;port: <span class="str">3000</span>,</div>
+                            <div><span class="ln">7</span>&nbsp;&nbsp;<span class="kw">async</span> <span class="fn">fetch</span>(req) {</div>
+                            <div><span class="ln">8</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">const</span> data = <span class="kw">await</span> db.<span class="fn">query</span>(<span class="str">"SELECT * FROM projects"</span>)</div>
+                            <div><span class="ln">9</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="fn">Response</span>.<span class="fn">json</span>(data)</div>
+                            <div><span class="ln">10</span>&nbsp;&nbsp;}</div>
+                            <div><span class="ln">11</span>})</div>
+                        </div>
+                        <div class="editor-console">
+                            <div class="console-tabs">
+                                <span class="c-tab active">CONSOLE</span>
+                                <span class="c-tab">TERMINAL</span>
+                                <span class="c-tab">PROBLEMS</span>
+                            </div>
+                            <div class="c-line">Server running on http://localhost:3000</div>
+                            <div class="c-line">Server running on http://localhost:3000</div>
+                            <div class="c-line">Server running on http://localhost:3000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ -->
+            <div class="faq-section">
+                <h3 class="faq-title">Frequently Asked Questions</h3>
+                <div class="faq-list">
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>What stack do you work with?</span>
+                            <svg class="faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="faq-answer"><div class="faq-answer-inner">React, Next.js, Node, Bun, Postgres, TypeScript. Fullstack means I own it end-to-end — from the database schema to the pixel on screen.</div></div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Do you take commissions or freelance work?</span>
+                            <svg class="faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="faq-answer"><div class="faq-answer-inner">Yes — selectively. Hit me up on Discord and tell me what you're building. If it's interesting, we'll figure something out.</div></div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How do I contact you?</span>
+                            <svg class="faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="faq-answer"><div class="faq-answer-inner">Discord is the fastest way. GitHub is there for the code. I don't check anything else.</div></div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Are you available for long-term projects?</span>
+                            <svg class="faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="faq-answer"><div class="faq-answer-inner">Depends on the project. Short sprints and long-term contracts both work — reach out with the details and we'll see.</div></div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Do you do frontend-only or backend-only?</span>
+                            <svg class="faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="faq-answer"><div class="faq-answer-inner">Both and everything between. I can own the whole stack or slot into whichever layer needs work.</div></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="install-section">
+    <h3 class="install-title">Get in touch.</h3>
+    <div class="install-instructions">
+        <p class="install-subtitle">Connect with me on social platforms or reach out directly.</p>
+    </div>
+
+    <!-- Social Links Grid replacing the terminal copy box -->
+    <div class="social-grid">
+        <a href="https://discord.com/users/447211905128333312" target="_blank" class="social-card discord-card" aria-label="Discord Profile">
+            <svg class="social-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+            <span>Discord</span>
+        </a>
+
+        <a href="https://github.com/yourusername" target="_blank" class="social-card github-card" aria-label="GitHub Profile">
+            <svg class="social-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            <span>GitHub</span>
+        </a>
+
+        <a href="mailto:zzeepphyrr@protonmail.com" class="social-card mail-card" aria-label="Send Email">
+            <svg class="social-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M1.5 4.5a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 4.5v15a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 19.5v-15zM3.75 3.75a.75.75 0 00-.75.75v.39l9 5.4 9-5.4V4.5a.75.75 0 00-.75-.75H3.75zm16.5 3.18l-7.875 4.725a.75.75 0 01-.75 0L3.75 6.93v12.57c0 .414.336.75.75.75h16.5a.75.75 0 00.75-.75V6.93z"/>
+            </svg>
+            <span>Email</span>
+        </a>
+    </div>
+
+    <p class="install-note">Reach out via any platform above for collaboration or updates on my work.</p>
+</div>
+
+        <!-- SCROLL HINT -->
+        <div class="scroll-indicator">
+            <span class="indicator-text">Scroll to explore</span>
+            <div class="mouse-icon"><div class="mouse-wheel"></div></div>
+        </div>
+    </div>
+
+    <!-- SCROLL CAPSULE -->
+    <div id="scroll-capsule" class="scroll-track-capsule">
+        <div id="scroll-thumb" class="scroll-thumb"></div>
+    </div>
+
+    <!-- FOOTER -->
+    <div id="fixed-footer" class="fixed-footer">
+        <div class="footer-left">built without ai!</div>
+        <div class="footer-right">meithepsycho</div>
+    </div>
+
+    <script>
+        /* ── OPIUMWARE ENGINE, adapted for mei ── */
+
+        function initBackgroundPattern() {
+            const container = document.getElementById('pattern-container');
+            if (!container) return;
+            container.innerHTML = '';
+            const rowHeight = 35, gap = 10, totalRowHeight = rowHeight + gap;
+            const rowCount = Math.ceil(window.innerHeight / totalRowHeight) + 4;
+            const patternString = "OX".repeat(120);
+            for (let i = 0; i < rowCount; i++) {
+                const row = document.createElement('div');
+                row.className = 'pattern-row';
+                const track = document.createElement('div');
+                track.className = `marquee-track ${i % 2 === 0 ? 'to-right' : 'to-left'}`;
+                const delay = -((i * 19) % 120);
+                track.style.animationDuration = '120s';
+                track.style.animationDelay = `${delay}s`;
+                const b1 = document.createElement('div'); b1.className = 'pattern-text'; b1.textContent = patternString;
+                const b2 = document.createElement('div'); b2.className = 'pattern-text'; b2.textContent = patternString;
+                track.appendChild(b1); track.appendChild(b2);
+                row.appendChild(track); container.appendChild(row);
+            }
+        }
+
+        let targetScroll = 0, currentScroll = 0;
+        const maxScroll = 1000;
+
+        function getMaxPaneScroll() {
+            const p = document.getElementById('showcase-scroll-pane');
+            return p ? Math.max(0, p.scrollHeight - p.clientHeight) : 0;
+        }
+        function getUnifiedMaxScroll() { return maxScroll + getMaxPaneScroll(); }
+
+        window.addEventListener('wheel', e => {
+            targetScroll = Math.max(0, Math.min(targetScroll + e.deltaY * 0.95, getUnifiedMaxScroll()));
+        }, { passive: true });
+
+        let touchY = 0;
+        window.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
+        window.addEventListener('touchmove', e => {
+            const delta = touchY - e.touches[0].clientY; touchY = e.touches[0].clientY;
+            targetScroll = Math.max(0, Math.min(targetScroll + delta * 1.5, getUnifiedMaxScroll()));
+        }, { passive: true });
+
+        window.addEventListener('keydown', e => {
+            const steps = { ArrowDown:100, ArrowUp:-100, PageDown:400, PageUp:-400, ' ':e.shiftKey?-350:350 };
+            if (e.key === 'Home') { targetScroll = 0; return; }
+            if (e.key === 'End')  { targetScroll = getUnifiedMaxScroll(); return; }
+            if (steps[e.key] !== undefined) { e.preventDefault(); targetScroll = Math.max(0, Math.min(targetScroll + steps[e.key], getUnifiedMaxScroll())); }
+        });
+
+        function initDragToScroll() {
+            const capsule = document.getElementById('scroll-capsule');
+            const thumb   = document.getElementById('scroll-thumb');
+            if (!capsule || !thumb) return;
+            let dragging = false, startY = 0, startScroll = 0;
+            capsule.addEventListener('mousedown', e => {
+                if (e.button !== 0) return;
+                e.preventDefault(); dragging = true;
+                document.body.style.userSelect = 'none'; document.body.style.cursor = 'grabbing';
+                const rect = capsule.getBoundingClientRect();
+                const clickY = e.clientY - rect.top;
+                const th = rect.height * 0.3, avail = rect.height - th;
+                let p = (clickY - th / 2) / avail; p = Math.max(0, Math.min(p, 1));
+                targetScroll = p * getUnifiedMaxScroll();
+                startY = e.clientY; startScroll = targetScroll;
+            });
+            window.addEventListener('mousemove', e => {
+                if (!dragging) return;
+                const rect = capsule.getBoundingClientRect();
+                const avail = rect.height - rect.height * 0.3;
+                targetScroll = Math.max(0, Math.min(startScroll + ((e.clientY - startY) / avail) * getUnifiedMaxScroll(), getUnifiedMaxScroll()));
+            });
+            window.addEventListener('mouseup', () => {
+                if (dragging) { dragging = false; document.body.style.userSelect = ''; document.body.style.cursor = ''; }
+            });
+        }
+
+        const scrollPane  = document.getElementById('showcase-scroll-pane');
+        const badge       = document.querySelector('.brand-badge');
+        const actionHdr   = document.querySelector('.action-header');
+        const mockupCard  = document.querySelector('.glass-mockup-card');
+        const sloganEl    = document.querySelector('.slogan-title');
+        const ease = 0.08;
+        let lastScroll = 0, forceShow = false;
+
+        function tick() {
+            currentScroll += (targetScroll - currentScroll) * ease;
+            if (Math.abs(targetScroll - currentScroll) < 0.02) currentScroll = targetScroll;
+
+            const delta = currentScroll - lastScroll; lastScroll = currentScroll;
+            if (currentScroll < 150) forceShow = false;
+            else if (delta < -0.5)  forceShow = true;
+            else if (delta >  0.5)  forceShow = false;
+
+            badge?.classList.toggle('header-show', forceShow);
+            actionHdr?.classList.toggle('header-show', forceShow);
+
+            if (currentScroll <= maxScroll) {
+                const p1 = Math.min(Math.max(currentScroll / 400, 0), 1);
+                const p2 = Math.min(Math.max((currentScroll - 400) / 300, 0), 1);
+                const p3 = Math.min(Math.max((currentScroll - 600) / 400, 0), 1);
+                document.documentElement.style.setProperty('--p1', p1);
+                document.documentElement.style.setProperty('--p2', p2);
+                document.documentElement.style.setProperty('--p3', p3);
+
+                if (badge)     badge.style.pointerEvents     = (forceShow || (1-p2)>0.1) ? 'auto' : 'none';
+                if (actionHdr) actionHdr.style.pointerEvents = (forceShow || (1-p2)>0.1) ? 'auto' : 'none';
+
+                if (scrollPane) { scrollPane.scrollTop = 0; scrollPane.style.transform = `translate3d(0,${(1-p3)*35}vh,0)`; }
+                if (sloganEl)   { sloganEl.style.opacity = p3; sloganEl.style.transform = `translate3d(0,${(1-p3)*30}px,0)`; }
+                if (mockupCard) { mockupCard.style.opacity = p3; mockupCard.style.transform = `translate3d(0,${(1-p3)*50}px,0)`; }
+            } else {
+                document.documentElement.style.setProperty('--p1', 1);
+                document.documentElement.style.setProperty('--p2', 1);
+                document.documentElement.style.setProperty('--p3', 1);
+                if (badge)     badge.style.pointerEvents     = forceShow ? 'auto' : 'none';
+                if (actionHdr) actionHdr.style.pointerEvents = forceShow ? 'auto' : 'none';
+
+                const paneScroll = currentScroll - maxScroll;
+                if (scrollPane) { scrollPane.style.transform = 'translate3d(0,0,0)'; scrollPane.scrollTop = paneScroll; }
+
+                const fadeP = Math.min(paneScroll / 380, 1);
+                if (sloganEl)   { sloganEl.style.opacity = 1-fadeP; sloganEl.style.transform = `translate3d(0,-${fadeP*60}px,0)`; }
+                if (mockupCard) { mockupCard.style.opacity = 1-fadeP; mockupCard.style.transform = `translate3d(0,-${fadeP*100}px,0)`; }
+            }
+
+            // thumb
+            const thumb = document.getElementById('scroll-thumb');
+            if (thumb) {
+                const avail = 120 - 120*0.3, total = getUnifiedMaxScroll();
+                thumb.style.transform = `translate3d(0,${(total>0?currentScroll/total:0)*avail}px,0)`;
+            }
+
+            // footer
+            const footer = document.getElementById('fixed-footer');
+            if (footer) {
+                const total = getUnifiedMaxScroll(), threshold = 80, fadeStart = total - threshold;
+                let fo = 0;
+                if (currentScroll > fadeStart && total > 0) fo = Math.pow((currentScroll-fadeStart)/threshold, 2.5);
+                footer.style.opacity   = fo;
+                footer.style.transform = `translate3d(0,${(1-fo)*15}px,0)`;
+                footer.style.pointerEvents = fo>0.1 ? 'auto' : 'none';
+            }
+
+            requestAnimationFrame(tick);
+        }
+
+        function initFaq() {
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.querySelector('.faq-question').addEventListener('click', () => {
+                    const wasActive = item.classList.contains('active');
+                    document.querySelectorAll('.faq-item').forEach(i => {
+                        i.classList.remove('active');
+                        i.querySelector('.faq-answer').style.maxHeight = '0px';
+                    });
+                    if (!wasActive) {
+                        item.classList.add('active');
+                        item.querySelector('.faq-answer').style.maxHeight = item.querySelector('.faq-answer').scrollHeight + 'px';
+                        setTimeout(() => { targetScroll = Math.min(targetScroll + 50, getUnifiedMaxScroll()); }, 250);
+                    }
+                });
+            });
+        }
+
+        function initCopy() {
+            const box = document.getElementById('terminal-box');
+            const ind = document.getElementById('copied-indicator');
+            if (!box) return;
+            box.addEventListener('click', () => {
+                try {
+                    const ta = document.createElement('textarea');
+                    ta.value = 'https://discord.com/users/447211905128333312';
+                    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+                    if (ind) { ind.classList.add('show'); setTimeout(()=>ind.classList.remove('show'), 2000); }
+                } catch(err) {}
+            });
+        }
+
+        function initProjectsScroll() {
+            const btn = document.getElementById('projects-trigger');
+            if (btn) btn.addEventListener('click', e => { e.preventDefault(); targetScroll = getUnifiedMaxScroll(); });
+        }
+
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initBackgroundPattern(); initFaq(); initDragToScroll(); initCopy(); initProjectsScroll();
+            requestAnimationFrame(tick);
+        } else {
+            document.addEventListener('DOMContentLoaded', () => {
+                initBackgroundPattern(); initFaq(); initDragToScroll(); initCopy(); initProjectsScroll();
+                requestAnimationFrame(tick);
+            });
+        }
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                initBackgroundPattern();
+                targetScroll = Math.min(targetScroll, getUnifiedMaxScroll());
+                const active = document.querySelector('.faq-item.active');
+                if (active) active.querySelector('.faq-answer').style.maxHeight = active.querySelector('.faq-answer').scrollHeight + 'px';
+            }, 150);
+        });
+    </script>
+</body>
+</html>
